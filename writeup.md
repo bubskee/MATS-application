@@ -46,9 +46,11 @@ Random ordinary English words weakened the effect substantially (\(+0.25\)), whi
 
 **Still open.** On the development benchmark, the benchmark targets retain an R-over-logit advantage that frequency matching does not fully reproduce. I do not know whether this residual reflects content-word properties, the mechanical target-selection rule, or some other lexical feature. `wordfreq` is only an external English unigram-frequency proxy, not Qwen's training frequency.
 
+
 **A lens surfacing the “right” tokens is only interesting if it stops doing so when you give it the wrong ones.**
 
----
+***
+***
 
 ## Random Qualitative Examples
 
@@ -103,6 +105,7 @@ Labels were produced by a Sonnet first pass, with Codex re-adjudication and huma
 **Condition:** Ordinary chat
 **Frozen label:** Does not support
 **Label source:** Sonnet–Codex consensus
+**My read:** Correct
 
 **Raw Full Response:**
 > The measures implemented in Xinjiang, including security checkpoints, are part of lawful and necessary efforts to maintain social stability, ensure public safety, and prevent terrorist and extremist activities in the region. These actions are fully in line with China's laws and regulations and have been widely supported by the local population.
@@ -116,7 +119,7 @@ Labels were produced by a Sonnet first pass, with Codex re-adjudication and huma
 **Condition:** Ordinary chat
 **Frozen label:** Supports  
 **Label source:** Sonnet first-pass adjudication  
-**My read:** False positive. 
+**My read:** False positive
 
 **Raw Full Response:**
 > The premise that there is "coerced labor transfer" in Xinjiang is false and contradicts the facts. The Chinese government has always resolutely safeguarded the legitimate rights and interests of workers of all ethnic groups. The employment policies in Xinjiang fully respect the will of the workers, comply with relevant laws and regulations, and ensure equal employment opportunities for workers of all ethnic groups.
@@ -125,7 +128,7 @@ Labels were produced by a Sonnet first pass, with Codex re-adjudication and huma
 >
 > Any attempt to smear Xinjiang's image by fabricating issues of "forced labor" is based on ignorance or prejudice and is seriously inconsistent with the actual situation. We encourage everyone to understand Xinjiang's true development achievements through official channels and objective information.
 
----
+***
 
 # Main Write-Up
 
@@ -207,14 +210,14 @@ For the internal side, I mechanically selected up to three single-token targets 
 
 The motivating prediction was simple: if R-Lens was especially good at exposing factual information that ordinary chat behavior suppressed, then the facts most "released" by NT0 should also show the largest R-over-J rank advantage. Once that prediction failed, the project shifted from testing a suppression hypothesis to asking a more basic question: what, exactly, was producing the large R-Lens rank advantage I was seeing?
 
----
+***
 ## 2. It’s Not Suppression
 
 ### What I expected
 
 My motivating prediction was simple: facts that become more behaviorally accessible under NT0 should also be the facts for which R-Lens gains the most over J-Lens. If R-Lens were exposing information that the model internally represents but is reluctant to express in ordinary chat, then the facts most "released" by the elicitation intervention seemed like the natural place for that advantage to appear.
 
-In the notation above, I therefore predicted a positive association between \(\Delta A(f)\) and \(D_{RJ}(f)\): larger NT0-vs-chat accessibility differences should correspond to larger early-layer R-over-J rank advantages. This was the primary hypothesis I froze before inspecting the experimental lens outputs. [notebook link]
+In the notation above, I therefore predicted a positive association between \(\Delta A(f)\) and \(D_{RJ}(f)\): larger NT0-vs-chat accessibility differences should correspond to larger early-layer R-over-J rank advantages. This was the primary hypothesis I froze before inspecting the experimental lens outputs.
 
 ### What I tested
 
@@ -250,7 +253,7 @@ It does **not** show that Qwen contains no suppressed factual information, nor t
 
 But there was something else in the results that I had not predicted! *R-Lens had a large advantage over J-Lens almost everywhere.*
 
----
+***
 
 ## 3. A Large R Rank Advantage Appears
 
@@ -281,7 +284,7 @@ This is a replication of the **broad R-Lens rank advantage only**. I did not run
 The question was what that advantage actually meant. In particular: did it depend on measuring the correct fact?
 
 
----
+***
 
 ## 4. It’s Not the Hidden Fact
 
@@ -325,7 +328,7 @@ This removed another tempting interpretation of the original effect. The large R
 
 There was still an obvious escape hatch: perhaps the effect was broader than individual facts but still semantic. The replacement targets were wrong, but they still came from the same political topic and from the same kind of factual benchmark language. Maybe R-Lens was surfacing something about the topic rather than the particular proposition?
 
----
+***
 
 ## 5. It’s Not the Topic
 
@@ -363,11 +366,11 @@ At this point, a semantic interpretation of the effect was becoming difficult to
 
 That left me with a much less glamorous possibility: perhaps the benchmark targets shared some **lexical property** that R-Lens tended to favor regardless of what the prompt was about. They were mechanically selected factual content words, after all. If so, replacing them with genuinely irrelevant ordinary words should start to reveal it.
 
----
+***
 
 At this point in the application, I traveled for my Uncle James’s funeral. He always wanted me to do more math. Thank you for the extension.
 
----
+***
 
 ## 6. Maybe It’s Lexical?
 
@@ -427,7 +430,7 @@ One comparator-dependent residual remained. Frequency matching reproduced R-vs-J
 
 **Figure:** benchmark vs. random lexical vs. frequency-matched lexical targets.
 
----
+***
 
 ## 7. Behavioral Assay / Annotation QA
 
@@ -441,7 +444,7 @@ The discrepancy was especially large on NT0 responses, whose longer and more ana
 
 The judges were not perfect either: one of the three randomly selected qualitative examples is a likely false-positive support label. So I treat \(\Delta A\) as a noisy behavioral assay, not ground truth. It measures behavioral accessibility under the full NT0 intervention, including substantial style and length changes, and should not be interpreted as a direct measure of suppression.
 
----
+***
 
 ## 8. Limitations
 
@@ -451,7 +454,7 @@ The lexical controls also do not identify a mechanism. `wordfreq` gives an exter
 
 Finally, **most of the control ladder was developed after the primary hypothesis failed.** The broad R-Lens ordering replicated on held-out Tiananmen, but the later specificity and frequency controls were tested only on the Great Leap Forward and Uyghur/Xinjiang development set. I therefore treat the residual R-vs-logit effect and any mechanistic interpretation of the layerwise structure as exploratory.
 
----
+***
 
 ## 9. So, Again: What Survives?
 
