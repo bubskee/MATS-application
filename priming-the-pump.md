@@ -1,4 +1,8 @@
-# narrative - ugly draft
+# Priming the pump
+
+post hoc edit: this is an early narrative scratchpad, writing from memory to kick-start my writeup process
+
+## original follows: 
 
 just starting to write to get the hang of it
 
